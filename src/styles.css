@@ -1,0 +1,35 @@
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 100px;
+    background-color: blanchedalmond;
+}
+
+#content {
+    background-color: aqua;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#content div {
+    
+    color: green;
+    font-weight: bold;
+    align-self: center;
+} 
+
+img {
+    height: 200px;
+}
+
+button {
+    background-color: green;
+    border-radius: 20px;
+    box-shadow: 5px 5px 10px green;
+    height: 50px;
+    width: 100px;
+}
