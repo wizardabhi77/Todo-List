@@ -1,3 +1,41 @@
 body {
     height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: 15px;
 }
+
+.sidebar{
+    background-color: aqua;
+    border: 10px blue ridge;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.profile{
+    display: flex;
+
+}
+.blackboard{
+    background-color: black;
+    border: 20px brown groove;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blackboard div {
+    border: 2px whitesmoke dashed;
+    color: white;
+    font-size: 20px;
+    height: 150px;
+    width: 150px;
+    text-align: center;
+}
+
+img {
+    height: 40px;
+}
+
+

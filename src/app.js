@@ -52,3 +52,17 @@ export class Task {
 
 
 
+export const blackBoard = function () {
+    let defaultProject = new Project('Default', 'Default','00/00/00');
+    let projects = [defaultProject];
+    
+    const addProject = function (title, description, dueDate) {
+        
+        let project = new Project(title, description, dueDate);
+        projects.push(project);
+    }
+
+    return {defaultProject, projects, addProject};
+}();
+
+
