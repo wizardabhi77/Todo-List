@@ -1,2 +1,2 @@
-# Restaurant-Page
-Dynamic Webpage made with npm, webpack support
+#Todo-List
+Fully functional todo list App to Add tasks to projects and track them
