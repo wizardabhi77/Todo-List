@@ -55,9 +55,15 @@ const domMaker = function () {
         projectElement.removeChild(form);
 
         let task = document.createElement('div');
+        let id = (project.tasks[project.tasks.length-1]).uuid;
+        task.id = id;
+
+        let done = document.createElement('input');
+        done.type = 'checkbox';
         let editButton = document.createElement('button');
         editButton.setAttribute('class','edit');
         editButton.innerHTML= 'EDIT';
+        editButton.addEventListener('click',handleEdit);
 
         let delButton = document.createElement('button');
         delButton.setAttribute('class','delete');
@@ -67,8 +73,10 @@ const domMaker = function () {
         
         task.setAttribute('class','task');
         task.innerHTML = `${taskObject.title}<br>  ${taskObject.dueDate}`;
+        
         task.appendChild(editButton);
         task.appendChild(delButton);
+        task.appendChild(done);
         
         projectElement.appendChild(task);
 
@@ -114,7 +122,23 @@ const domMaker = function () {
         return inputArray;
     }
 
-    
+    function handleEdit(e) {
+        let taskElement = e.target.parentElement;
+        let projectElement = taskElement.parentElement;
+        let projectObject = blackBoard.projects.find((project)=> project.uuid == projectElement.id);
+        let taskObject = projectObject.tasks.find((task) => task.uuid == taskElement.id);
+        let notes = document.createElement('textarea');
+        notes.style.backgroundColor = 'white';
+        let endButton = document.createElement('button');
+        endButton.addEventListener('click', (e)=>{
+            taskObject.setNotes(notes.textContent);
+            e.target.parentElement.removeChild(notes);
+            e.target.parentElement.removeChild(endButton);
+        })
+        taskElement.appendChild(notes);
+        taskElement.appendChild(endButton);
+
+    }
 
     return {addProject,addTask,userInput};
 }();
