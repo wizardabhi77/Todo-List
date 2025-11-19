@@ -9,9 +9,12 @@ export class Project {
         this.checkBox = false;
     }
     
-    addTask(title, description, dueDate, priority) {
+    addTask(inputArray) {
+
+        let [title,description,dueDate,priority] = inputArray;
         let task = new Task(title, description, dueDate, priority);
         this.tasks.push(task);
+
     }
     
     setCheckBox(){
@@ -58,10 +61,12 @@ export const blackBoard = function () {
     let defaultProject = new Project('Default', 'Default','00/00/00');
     let projects = [defaultProject];
     
-    const addProject = function (title, description, dueDate) {
+    const addProject = function (inputArray) {
         
+        let [title,description,dueDate] = inputArray.slice(0,3);
         let project = new Project(title, description, dueDate);
         projects.push(project);
+        
     }
 
     return {defaultProject, projects, addProject};

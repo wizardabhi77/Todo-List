@@ -23,19 +23,53 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.blackboard div {
-    border: 2px whitesmoke dashed;
+.project {
+    border: 2px whitesmoke dotted;
     color: white;
     font-size: 20px;
-    height: 150px;
-    width: 150px;
+    min-height: 20px;
+    min-width: 550px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.task {
+    background-color: whitesmoke;
+    border: 5px black solid;
+    border-radius : 20px;
+    color: black;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.taskButton {
+    height: 30px;
+    width: 30px;
+    background-color: aqua; 
+    
+    background-image: url("./Assets/addTask.png");
+}
+
+.edit {
+    border-radius: 10px;
+    background-color: yellowgreen; 
+    background-image: url('./Assets/Edit.png');
+}
+
+.delete {
+    border-radius: 10px;
+    background-color: red;
+    background-image: url('./Assets/delete.png');
 }
 
 img {
     height: 40px;
 }
+
 
 
