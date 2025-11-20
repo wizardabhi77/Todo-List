@@ -73,6 +73,7 @@ const domMaker = function () {
         let delButton = document.createElement('button');
         delButton.setAttribute('class','delete');
         delButton.innerHTML = 'DELETE';
+        delButton.addEventListener('click',handleDelete);
         
         let taskObject = project.tasks[project.tasks.length-1];
         
@@ -200,6 +201,18 @@ const domMaker = function () {
         taskElement.appendChild(notes);
         taskElement.appendChild(endButton);
 
+    }
+
+    function handleDelete(e) {
+
+        //getting project and taske element and object
+        let taskElement = e.target.parentElement;
+        let projectElement = taskElement.parentElement;
+        let projectObject = blackBoard.projects.find((project)=> project.uuid == projectElement.id);
+        let taskObject = projectObject.tasks.find((task) => task.uuid == taskElement.id);
+
+        projectObject.deleteTask(taskObject);
+        projectElement.removeChild(taskElement);
     }
 
     return {addProject,addTask,userInput};

@@ -16,6 +16,10 @@ export class Project {
         this.tasks.push(task);
 
     }
+
+    deleteTask(delTask) {
+        this.tasks.filter(task => task !== delTask);
+    }
     
     setCheckBox(){
         this.checkBox = true;
