@@ -38,8 +38,8 @@ export class Task {
         this.checkBox = false;
     }
 
-    setCheckBox(){
-        this.checkBox = true;
+    setCheckBox(check){
+        this.checkBox = check;
     }
 
     setNotes(text){
