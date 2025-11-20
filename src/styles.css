@@ -44,28 +44,31 @@ body {
     border-radius : 20px;
     color: black;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .taskButton {
     height: 30px;
     width: 30px;
     background-color: aqua; 
-    
-    background-image: url("./Assets/addTask.png");
+
 }
 
-.edit {
+.task button{
     border-radius: 10px;
-    background-color: yellowgreen; 
-    background-image: url('./Assets/Edit.png');
+    background-color: cyan; 
+    height: 50px;
+    align-self: center;
 }
 
-.delete {
-    border-radius: 10px;
-    background-color: red;
-    background-image: url('./Assets/delete.png');
+
+.task h2 {
+    font-size: 40px;
+    font-weight: bolder;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
 
 img {
     height: 40px;

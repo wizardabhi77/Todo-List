@@ -63,7 +63,7 @@ const domMaker = function () {
         
         let expandButton = document.createElement('button');
         expandButton.innerHTML= '>>>';
-        
+        expandButton.setAttribute('class','expand');
 
         let editButton = document.createElement('button');
         editButton.setAttribute('class','edit');
@@ -184,23 +184,32 @@ const domMaker = function () {
 //Button handlers for task Object
     function handleEdit(e) {
         
-        //getting project and taske element and object
-        let taskElement = e.target.parentElement;
-        let projectElement = taskElement.parentElement;
-        let projectObject = blackBoard.projects.find((project)=> project.uuid == projectElement.id);
-        let taskObject = projectObject.tasks.find((task) => task.uuid == taskElement.id);
-        
-        let notes = document.createElement('textarea');
-        notes.style.backgroundColor = 'white';
-        let endButton = document.createElement('button');
-        endButton.addEventListener('click', (e)=>{
-            taskObject.setNotes(notes.value);
-            e.target.parentElement.removeChild(notes);
-            e.target.parentElement.removeChild(endButton);
-        })
-        taskElement.appendChild(notes);
-        taskElement.appendChild(endButton);
+        if(e.target.parentElement.contains(document.getElementById('notes'))){
+            return null;
+        }
 
+        else{
+
+        
+            //getting project and taske element and object
+            let taskElement = e.target.parentElement;
+            let projectElement = taskElement.parentElement;
+            let projectObject = blackBoard.projects.find((project)=> project.uuid == projectElement.id);
+            let taskObject = projectObject.tasks.find((task) => task.uuid == taskElement.id);
+            
+            let notes = document.createElement('textarea');
+            notes.id = 'notes';
+            notes.style.backgroundColor = 'white';
+            let endButton = document.createElement('button');
+            endButton.innerHTML = 'END';
+            endButton.addEventListener('click', (e)=>{
+                taskObject.setNotes(notes.value);
+                e.target.parentElement.removeChild(notes);
+                e.target.parentElement.removeChild(endButton);
+            })
+            taskElement.appendChild(notes);
+            taskElement.appendChild(endButton);
+        }
     }
 
     function handleDelete(e) {
