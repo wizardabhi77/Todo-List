@@ -14,15 +14,19 @@ export class Project {
         let [title,description,dueDate,priority] = inputArray;
         let task = new Task(title, description, dueDate, priority);
         this.tasks.push(task);
-
+        blackBoard.populateStorage();
     }
 
     deleteTask(delTask) {
-        this.tasks.filter(task => task !== delTask);
+        
+       let changeArr = this.tasks.filter(task => task !== delTask);
+       this.tasks = changeArr;
+        blackBoard.populateStorage();
     }
     
     setCheckBox(){
         this.checkBox = true;
+        blackBoard.populateStorage();
     }
 
 
@@ -44,10 +48,12 @@ export class Task {
 
     setCheckBox(check){
         this.checkBox = check;
+        blackBoard.populateStorage();
     }
 
     setNotes(text){
         this.notes = text;
+        blackBoard.populateStorage();
     }
     
     delete(){
@@ -62,18 +68,32 @@ export class Task {
 
 
 export const blackBoard = function () {
-    let defaultProject = new Project('Default', 'Default','00/00/00');
-    let projects = [defaultProject];
+    
+    let projects = [];
     
     const addProject = function (inputArray) {
         
         let [title,description,dueDate] = inputArray.slice(0,3);
         let project = new Project(title, description, dueDate);
         projects.push(project);
+        populateStorage();
+    }
+
+    const deleteProject = function (delProject) {
+        
+        let changeArr = this.projects.filter(project => project !== delProject);
+        projects = changeArr;
+        
+        populateStorage();
         
     }
 
-    return {defaultProject, projects, addProject};
+    const populateStorage = function (){
+        
+        localStorage.setItem("projects",JSON.stringify(projects));
+    }
+
+    return { projects, addProject, deleteProject, populateStorage};
 }();
 
 

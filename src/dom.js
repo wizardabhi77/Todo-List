@@ -8,6 +8,112 @@ let projectButton = document.querySelector('#add-project');
 const domMaker = function () {
     
     
+    const domInit = function () {
+       let projectArray = JSON.parse(localStorage.getItem("projects"));
+        
+        console.log(projectArray);
+       projectArray.forEach((project) => {
+
+            //addProject Redundant
+            let inputArray = [project.title, project.description, project.dueDate];
+            blackBoard.addProject(inputArray);
+
+            let projectObject = blackBoard.projects[blackBoard.projects.length-1];
+
+            let taskButton = document.createElement('button');
+            taskButton.setAttribute('class','taskButton');
+            taskButton.innerHTML = '+';
+            taskButton.addEventListener('click',userInput);
+            let projectElement = document.createElement('div');
+            board.appendChild(projectElement);
+
+            let deleteProject = document.createElement('button');
+            deleteProject.id = 'del-project';
+            deleteProject.innerHTML = 'X';
+            deleteProject.addEventListener('click',handleDelete);
+
+            let listItem = document.createElement('li');
+            
+            let id = projectObject.uuid;
+            projectElement.setAttribute('class','project');
+            projectElement.innerHTML = `${projectObject.title}`;
+            projectElement.id = id;
+            projectElement.appendChild(taskButton);
+
+            projectElement.appendChild(deleteProject);
+
+            listItem.innerHTML = `<h2>${projectObject.title}</h2>`;
+            projectList.appendChild(listItem);
+
+
+
+
+            //addTask Redundant
+            project.tasks.forEach((task)=>{
+                
+                let inputArray = [task.title,task.description,task.dueDate,task.priority];
+                projectObject.addTask(inputArray);
+
+                let taskElement = document.createElement('div');
+                
+                let done = document.createElement('input');
+                done.type = 'checkbox';
+                
+                let expandButton = document.createElement('button');
+                expandButton.innerHTML= '>>>';
+                expandButton.setAttribute('class','expand');
+
+                let editButton = document.createElement('button');
+                editButton.setAttribute('class','edit');
+                editButton.innerHTML= 'EDIT';
+                editButton.addEventListener('click',handleEdit);
+
+                let delButton = document.createElement('button');
+                delButton.setAttribute('class','delete');
+                delButton.innerHTML = 'DELETE';
+                delButton.addEventListener('click',handleDelete);
+
+                done.addEventListener('change',(e) => {
+                    if(e.target.checked) {
+                        task.setCheckBox(true);
+                    }
+                    else {
+                        task.setCheckBox(false);
+                    }
+                });
+                
+                taskElement.setAttribute('class','task');
+                setColor(taskElement,task.priority);
+                taskElement.innerHTML = ` <h2>${task.title}</h2> <br> ${task.dueDate}`;
+                
+                taskElement.appendChild(expandButton);
+                taskElement.appendChild(editButton);
+                taskElement.appendChild(delButton);
+                taskElement.appendChild(done);
+
+                expandButton.addEventListener('click',() => {
+            
+                    let expandByID = document.getElementById('expand');
+                    
+                    if(taskElement.contains(expandByID)){
+                        taskElement.removeChild(expandByID);
+                    }
+
+                    else{
+                        let expand = document.createElement('div');
+                        expand.id = 'expand';
+                        expand.innerHTML = `<br>Description : ${task.description}<br>Priority: ${task.priority}<br>Notes: ${task.notes}<br>Did u finish the task?: ${task.checkBox}`;
+                        taskElement.appendChild(expand);
+                    }
+                });
+
+                projectElement.appendChild(taskElement);
+                
+            })
+        })
+    } 
+
+
 //Two functions for Dom Manipulation to create Project and add tasks to it
     const addProject = function (e) {
         
@@ -25,6 +131,11 @@ const domMaker = function () {
         taskButton.addEventListener('click',userInput);
         let project = document.createElement('div');
         board.appendChild(project);
+
+        let deleteProject = document.createElement('button');
+        deleteProject.id = 'del-project';
+        deleteProject.innerHTML = 'X';
+        deleteProject.addEventListener('click',handleDelete);
         
         let listItem = document.createElement('li');
         let projectObject = blackBoard.projects[blackBoard.projects.length-1];
@@ -34,11 +145,13 @@ const domMaker = function () {
         project.innerHTML = `${projectObject.title}`;
         project.id = id;
         project.appendChild(taskButton);
-
+        project.appendChild(deleteProject);
         
 
         listItem.innerHTML = `<h2>${projectObject.title}</h2>`;
         projectList.appendChild(listItem);
+
+        
     } 
 
     const addTask = function (e) {
@@ -47,6 +160,7 @@ const domMaker = function () {
 
         let projectElement = (e.target.parentElement).parentElement;
         let projectID = projectElement.id;
+        console.log(blackBoard.projects[0]);
         let project = blackBoard.projects.find((project)=> project.uuid == projectID);
 
         project.addTask(setInput());
@@ -113,6 +227,7 @@ const domMaker = function () {
 
         projectElement.appendChild(task);
 
+        
 
     }
 
@@ -210,23 +325,37 @@ const domMaker = function () {
             taskElement.appendChild(notes);
             taskElement.appendChild(endButton);
         }
+        
     }
 
     function handleDelete(e) {
 
-        //getting project and taske element and object
-        let taskElement = e.target.parentElement;
-        let projectElement = taskElement.parentElement;
-        let projectObject = blackBoard.projects.find((project)=> project.uuid == projectElement.id);
-        let taskObject = projectObject.tasks.find((task) => task.uuid == taskElement.id);
+        if(e.target.id == 'del-project'){
+            let projectElement = e.target.parentElement;
+            let projectObject = blackBoard.projects.find((project)=> project.uuid == projectElement.id);
+            
 
-        projectObject.deleteTask(taskObject);
-        projectElement.removeChild(taskElement);
+            blackBoard.deleteProject(projectObject);
+            board.removeChild(projectElement);
+            
+        }
+        else{
+            //getting project and task element and object
+            let taskElement = e.target.parentElement;
+            let projectElement = taskElement.parentElement;
+            let projectObject = blackBoard.projects.find((project)=> project.uuid == projectElement.id);
+            let taskObject = projectObject.tasks.find((task) => task.uuid == taskElement.id);
+
+            projectObject.deleteTask(taskObject);
+            projectElement.removeChild(taskElement); 
+
+        }
     }
 
-    return {addProject,addTask,userInput};
+    return {addProject,addTask,userInput,domInit};
 }();
 
 projectButton.addEventListener('click', domMaker.userInput);
+
 
 export default domMaker;
